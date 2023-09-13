@@ -67,10 +67,7 @@ std::string Value::stringify(int indent) const{
         case Type::Number:  return n.stringify(indent);
         case Type::Boolean: return b.stringify(indent);
         case Type::Null: {
-            if(indent == -1)
-                return "null";
-            else
-                return std::string(' ', indent) + "null";
+            return "null";
         }
     }
     assert(false);
@@ -98,7 +95,6 @@ std::string Object::stringify(int indent) const{
     DEBUG_PRINTF("Object stringify(%d)\n", indent);
     std::string out;
     if(indent != -1){
-        out += std::string(' ', indent);
         out += "{";
         bool b = false;
         if(Super::size())
@@ -107,11 +103,13 @@ std::string Object::stringify(int indent) const{
             if(b) {
                 out += ",\n";
             }
-            out += v.stringify(indent+INDENT);
+            out += std::string(indent+INDENT, ' ');
+            out += '"' + k + "\": ";
+            out += v.stringify(indent+INDENT*2);
             b = true;
         }
         out += "\n";
-        out += std::string(' ', indent);
+        out += std::string(indent, ' ');
         out += "}";
     } else{
         out += "{";
@@ -143,7 +141,6 @@ std::string Array::stringify(int indent) const{
     DEBUG_PRINTF("Array stringify(%d)\n", indent);
     std::string out;
     if(indent != -1){
-        out += std::string(' ', indent);
         out += "[";
         bool b = false;
         if(m_values.size())
@@ -152,12 +149,13 @@ std::string Array::stringify(int indent) const{
             if(b) {
                 out += ",\n";
             }
+            out += std::string(indent+INDENT, ' ');
             out += v.stringify(indent+INDENT);
             b = true;
         }
         if(m_values.size()){
             out += "\n";
-            out += std::string(' ', indent);
+            out += std::string(indent, ' ');
         }
         out += "]";
     } else{
@@ -182,10 +180,7 @@ Boolean &Boolean::operator=(const Boolean &b) { m_value = b; return *this;}
 std::string Boolean::stringify(int indent) const{
     DEBUG_PRINTF("Boolean stringify(%d)\n", indent);
     std::string out = m_value?"true":"false";
-    if(indent == -1)
-        return out;
-    else
-        return std::string(' ', indent) + out;
+    return out;
 }
 
 std::string String::stringify(int indent) const{
@@ -194,10 +189,7 @@ std::string String::stringify(int indent) const{
     out += '"';
     out += m_value;
     out += '"';
-    if(indent == -1)
-        return out;
-    else
-        return std::string(' ', indent) + out;
+    return out;
 }
 
 Number::IntType Number::asInteger() const { assert(isInteger()); return i; }
@@ -210,8 +202,5 @@ std::string Number::stringify(int indent) const{
     }else{
         out = std::to_string(d);
     }
-    if(indent == -1)
-        return out;
-    else
-        return std::string(' ', indent) + out;
+    return out;
 }

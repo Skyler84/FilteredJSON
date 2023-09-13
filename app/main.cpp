@@ -14,6 +14,6 @@ int main()
   }
   FilteredJSON::Value &root = parser.getValue();
   std::cout << "Root type: " << (int)root.getType() << std::endl;
-  std::cout << "Root stringified: " << root.stringify(2) << std::endl;
+  std::cout << "Root stringified: " << root.stringify(0) << std::endl;
   return 0;
 }
