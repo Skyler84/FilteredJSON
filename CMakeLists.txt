@@ -19,11 +19,5 @@ PUBLIC
   include/
 )
 
-add_custom_command(TARGET "filteredjson" POST_BUILD
-  COMMAND ccache -s )
-
-add_custom_command(TARGET "filteredjson" PRE_BUILD
-  COMMAND ccache -z )
-
 add_subdirectory(tests)
 add_subdirectory(app)
