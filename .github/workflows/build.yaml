@@ -22,5 +22,5 @@ jobs:
       uses: lukka/run-cmake@v10
       with:
         cmakeListsTxtPath: ${{github.workspace}}/main/CMakeLists.txt
-        configurePreset: Default
+        configurePreset: default
         configurePresetAdditionalArgs: "['-DCMAKE_C_COMPILER_LAUNCHER=ccache', '-DCMAKE_CXX_COMPILER_LAUNCHER=ccache']"
