@@ -1,0 +1,26 @@
+name: Build
+
+on:
+  push: 
+    branches: [ main ]
+  pull_request: 
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: checkout
+      uses: actions/checkout@v3
+      with:
+        path: main
+    - name: ccache
+      uses: hendrikmuhs/ccache-action@v1.2
+    - name: get cmake/ninja
+      uses: lukka/get-cmake@latest
+    - name: run cmake
+      uses: lukka/run-cmake@v10
+      with:
+        cmakeListsTxtPath: ${{github.workspace}}/main/CMakeLists.txt
+        configurePreset: default
+        configurePresetAdditionalArgs: "['-DCMAKE_C_COMPILER_LAUNCHER=ccache', '-DCMAKE_CXX_COMPILER_LAUNCHER=ccache']"
